@@ -5,60 +5,507 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Quinet Jewelry | Premium Luxe Collection</title>
     <!-- Tailwind + GSAP + Splide -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script src="https://unpkg.com/gsap@3.12.2/dist/gsap.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js">
+    </script>
     <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --gold: #D4AF37; --dark-gold: #B8860B; }
-        .hover-glow { transition: all 0.25s ease; }
-        .hover-glow:hover { transform: scale(1.02); box-shadow: 0 15px 30px rgba(212,175,55,0.3); }
-        .btn-shine { position: relative; overflow: hidden; }
-        .btn-shine::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: 0.4s; }
-        .btn-shine:hover::before { left: 100%; }
-        .page-section { display: none; will-change: transform; }
-        .page-section.active { display: block; animation: fadeSlide 0.35s ease-out forwards; }
-        @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .product-card { transition: transform 0.2s ease, box-shadow 0.25s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px -12px rgba(212, 175, 55, 0.4); }
-        .splide__slide { background: transparent; }
-        .hero-carousel .splide__arrow { background: rgba(0,0,0,0.5); border-radius: 50%; width: 2.8rem; height: 2.8rem; opacity: 0.7; }
-        .hero-carousel .splide__arrow:hover { background: #D4AF37; }
-        .modal-glass { background: rgba(10, 20, 30, 0.96); backdrop-filter: blur(16px); }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1e1a2f; }
-        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 10px; }
-        footer a { transition: all 0.2s; }
-        footer a:hover { color: #D4AF37; transform: translateY(-2px); display: inline-block; }
-        .social-icon { transition: transform 0.2s, filter 0.2s; }
-        .social-icon:hover { transform: translateY(-4px) scale(1.1); filter: drop-shadow(0 0 6px #D4AF37); }
-        .history-card { transition: all 0.2s; }
-        .history-card:hover { transform: translateX(5px); border-left-color: #D4AF37; }
-        /* Team page specific styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #B8860B;
+            --sun-amber: #F59E0B;
+            --sun-orange: #F97316;
+            --sun-crimson: #DC2626;
+            --sun-yellow: #FBBF24;
+            --glow-gold: rgba(212, 175, 55, 0.6);
+            --glow-amber: rgba(245, 158, 11, 0.5);
+            --glow-orange: rgba(249, 115, 22, 0.35);
+        }
+
+        /* ============ SUN AURA BACKGROUND ============ */
+        .sun-aura-bg {
+            background: radial-gradient(ellipse at 50% 40%, rgba(255, 180, 40, 0.18) 0%, rgba(200, 120, 20, 0.08) 25%, rgba(30, 12, 0, 0.92) 55%, #06030a 100%);
+            animation: sunBreathing 12s ease-in-out infinite;
+            z-index: -2;
+        }
+        @keyframes sunBreathing {
+            0%,
+            100% {
+                opacity: 0.75;
+                transform: scale(1);
+            }
+            25% {
+                opacity: 0.95;
+                transform: scale(1.06);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+            75% {
+                opacity: 1;
+                transform: scale(1.07);
+            }
+        }
+
+        /* override body tailwind gradient with transparent base so sun-aura shows */
+        body {
+            background: #0a0408 !important;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 50% 35%, rgba(255, 160, 30, 0.1) 0%, rgba(180, 100, 20, 0.04) 30%, transparent 65%);
+            animation: bodyGlowPulse 8s ease-in-out infinite;
+        }
+        @keyframes bodyGlowPulse {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        /* ============ GLOBAL GLOW ENHANCEMENTS ============ */
+        .hover-glow {
+            transition: all 0.25s ease;
+        }
+        .hover-glow:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3), 0 0 50px rgba(255, 150, 0, 0.2);
+        }
+
+        /* ============ SUN-FORGED BUTTONS ============ */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #D4AF37 0%, #F59E0B 25%, #F97316 50%, #D4AF37 75%, #FBBF24 100%);
+            background-size: 300% 300%;
+            animation: btnSunPulse 4s ease-in-out infinite;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.35), 0 0 40px rgba(255, 150, 0, 0.12);
+        }
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), rgba(255, 220, 100, 0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-shine:hover::before {
+            left: 100%;
+        }
+        .btn-shine:hover {
+            box-shadow: 0 0 35px rgba(255, 160, 20, 0.7), 0 0 70px rgba(212, 175, 55, 0.4), 0 10px 30px rgba(0, 0, 0, 0.4);
+            transform: scale(1.04);
+            filter: brightness(1.12);
+        }
+        @keyframes btnSunPulse {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* ============ PAGE SECTIONS ============ */
+        .page-section {
+            display: none;
+            will-change: transform;
+        }
+        .page-section.active {
+            display: block;
+            animation: fadeSlide 0.35s ease-out forwards;
+        }
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ PRODUCT CARDS - RADIANT ============ */
+        .product-card {
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s, border-color 0.3s;
+            border: 1px solid rgba(212, 175, 55, 0.35) !important;
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.13), 0 0 30px rgba(255, 140, 0, 0.06), 0 6px 22px rgba(0, 0, 0, 0.35);
+            animation: cardSlowFloat 7.5s ease-in-out infinite;
+            position: relative;
+            overflow: visible;
+        }
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: -45%;
+            left: -35%;
+            width: 55%;
+            height: 130%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 215, 0, 0.05) 40%, transparent 100%);
+            transform: rotate(26deg);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 4px;
+        }
+        .product-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 0 60px rgba(255, 150, 0, 0.25), 0 0 90px rgba(255, 120, 0, 0.1), 0 18px 40px rgba(0, 0, 0, 0.5) !important;
+            border-color: rgba(255, 180, 50, 0.85) !important;
+            animation-play-state: paused;
+        }
+        @keyframes cardSlowFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
+            85% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* ============ SPLIDE CAROUSEL - SUN FLARE ============ */
+        .hero-carousel .splide__slide {
+            position: relative;
+        }
+        .hero-carousel .splide__slide .sun-flare {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-carousel .splide__slide .sun-flare::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70vw;
+            height: 70vw;
+            max-width: 900px;
+            max-height: 900px;
+            background: radial-gradient(circle, rgba(255, 200, 60, 0.35) 0%, rgba(255, 160, 30, 0.15) 25%, rgba(255, 120, 20, 0.04) 50%, transparent 70%);
+            border-radius: 50%;
+            animation: sunFlarePulse 5s ease-in-out infinite;
+        }
+        @keyframes sunFlarePulse {
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+        .hero-carousel .splide__arrow {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 2.8rem;
+            height: 2.8rem;
+            opacity: 0.7;
+        }
+        .hero-carousel .splide__arrow:hover {
+            background: #D4AF37;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.7);
+        }
+
+        /* ============ MODALS - DIVINE CHAMBER ============ */
+        .modal-glass {
+            background: rgba(10, 20, 30, 0.96);
+            backdrop-filter: blur(16px);
+        }
+        #login-modal>div,
+        #cart-modal>div,
+        #checkout-modal>div {
+            border: 2px solid rgba(212, 175, 55, 0.5) !important;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.3), 0 0 80px rgba(255, 150, 0, 0.15), 0 0 140px rgba(255, 100, 0, 0.06), 0 20px 55px rgba(0, 0, 0, 0.6) !important;
+            animation: modalGlowIn 0.4s ease-out forwards;
+        }
+        @keyframes modalGlowIn {
+            from {
+                box-shadow: 0 0 0px rgba(212, 175, 55, 0), 0 0 0px rgba(255, 150, 0, 0), 0 10px 30px rgba(0, 0, 0, 0.4);
+            }
+            to {
+                box-shadow: 0 0 35px rgba(212, 175, 55, 0.3), 0 0 80px rgba(255, 150, 0, 0.15), 0 0 140px rgba(255, 100, 0, 0.06), 0 20px 55px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        /* ============ SCROLLBAR - GLOWING GOLD ============ */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1020;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #D4AF37, #F59E0B, #D4AF37);
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5), 0 0 16px rgba(255, 150, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #FBBF24, #F97316, #FBBF24);
+            box-shadow: 0 0 14px rgba(255, 180, 40, 0.8), 0 0 28px rgba(255, 140, 0, 0.35);
+        }
+
+        /* ============ FOOTER ============ */
+        footer a {
+            transition: all 0.2s;
+        }
+        footer a:hover {
+            color: #D4AF37;
+            transform: translateY(-2px);
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        .social-icon {
+            transition: transform 0.2s, filter 0.2s;
+        }
+        .social-icon:hover {
+            transform: translateY(-4px) scale(1.1);
+            filter: drop-shadow(0 0 6px #D4AF37) drop-shadow(0 0 12px rgba(255, 150, 0, 0.5));
+        }
+
+        /* ============ HISTORY CARDS ============ */
+        .history-card {
+            transition: all 0.25s;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.08), 0 4px 16px rgba(0, 0, 0, 0.3);
+            animation: cardSlowFloat 8s ease-in-out infinite;
+        }
+        .history-card:hover {
+            transform: translateX(8px) translateY(-3px) !important;
+            border-left-color: #D4AF37 !important;
+            border-left-width: 8px !important;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), 0 0 50px rgba(255, 150, 0, 0.15), 0 12px 30px rgba(0, 0, 0, 0.4) !important;
+            animation-play-state: paused;
+        }
+
+        /* ============ TEAM CARDS ============ */
         .team-card {
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(212, 175, 55, 0.35) !important;
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.15), 0 0 35px rgba(255, 140, 0, 0.07), 0 8px 24px rgba(0, 0, 0, 0.35);
+            animation: teamCardFloat 8.5s ease-in-out infinite;
         }
         .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 35px -12px rgba(212, 175, 55, 0.3);
+            transform: translateY(-10px) !important;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.5), 0 0 70px rgba(255, 150, 0, 0.25), 0 0 100px rgba(255, 100, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+            border-color: rgba(255, 190, 60, 0.9) !important;
+            animation-play-state: paused;
         }
         .team-img {
             transition: transform 0.5s ease;
         }
         .team-card:hover .team-img {
-            transform: scale(1.05);
+            transform: scale(1.06);
+            filter: brightness(1.1) saturate(1.15);
+        }
+        @keyframes teamCardFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            35% {
+                transform: translateY(-6px);
+            }
+            65% {
+                transform: translateY(-3px);
+            }
+            85% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* ============ HEADER GLOW ============ */
+        header {
+            position: relative;
+            box-shadow: 0 2px 30px rgba(212, 175, 55, 0.2), 0 1px 8px rgba(255, 150, 0, 0.1) !important;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 3%;
+            width: 94%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), rgba(255, 160, 30, 0.8), rgba(212, 175, 55, 0.5), transparent);
+            animation: headerBorderGlow 3.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes headerBorderGlow {
+            0%,
+            100% {
+                opacity: 0.45;
+                height: 2px;
+            }
+            50% {
+                opacity: 1;
+                height: 3px;
+            }
+        }
+        header h1 {
+            text-shadow: 0 0 22px rgba(212, 175, 55, 0.55), 0 0 45px rgba(255, 150, 0, 0.3), 0 0 70px rgba(255, 120, 0, 0.15);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+        @keyframes logoGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 22px rgba(212, 175, 55, 0.55), 0 0 45px rgba(255, 150, 0, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 35px rgba(255, 200, 60, 0.8), 0 0 65px rgba(255, 160, 30, 0.5), 0 0 90px rgba(255, 120, 0, 0.25);
+            }
+        }
+
+        /* ============ NAV BUTTONS ============ */
+        nav button {
+            transition: all 0.25s;
+            position: relative;
+        }
+        nav button:hover {
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.7), 0 0 24px rgba(255, 150, 0, 0.35);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+        }
+        #cart-header-btn {
+            animation: cartBadgeGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes cartBadgeGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 180, 40, 0.55), 0 0 35px rgba(255, 140, 0, 0.2);
+            }
+        }
+        #cart-count-badge {
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.18);
+            }
+            60% {
+                transform: scale(1);
+            }
+            85% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* ============ HERO TEXT GLOW ============ */
+        .hero-carousel h2 {
+            text-shadow: 0 0 30px rgba(255, 200, 60, 0.6), 0 0 60px rgba(255, 150, 0, 0.35), 0 0 100px rgba(255, 100, 0, 0.2);
+            animation: heroTextGlow 3.5s ease-in-out infinite;
+        }
+        @keyframes heroTextGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 30px rgba(255, 200, 60, 0.6), 0 0 60px rgba(255, 150, 0, 0.35);
+            }
+            50% {
+                text-shadow: 0 0 50px rgba(255, 220, 80, 0.9), 0 0 90px rgba(255, 170, 40, 0.55), 0 0 130px rgba(255, 120, 0, 0.25);
+            }
+        }
+        .hero-carousel p {
+            text-shadow: 0 0 10px rgba(255, 180, 50, 0.3);
+        }
+
+        /* ============ CHECKOUT BUTTON SPECIAL ============ */
+        #checkout-modal button {
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.4), 0 0 50px rgba(34, 197, 94, 0.15) !important;
+            transition: all 0.3s;
+        }
+        #checkout-modal button:hover {
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.7), 0 0 80px rgba(34, 197, 94, 0.3) !important;
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        /* ============ INPUT FOCUS GLOW ============ */
+        input:focus,
+        select:focus {
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.4), 0 0 35px rgba(255, 150, 0, 0.15) !important;
+            border-color: #D4AF37 !important;
+        }
+
+        /* ============ SECTION HEADINGS ============ */
+        .page-section h2 {
+            text-shadow: 0 0 14px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ============ DETAILS / SUMMARY STYLING ============ */
+        details summary {
+            transition: all 0.2s;
+        }
+        details summary:hover {
+            text-shadow: 0 0 10px rgba(255, 200, 60, 0.6);
+        }
+
+        /* ============ MOBILE MENU BUTTON ============ */
+        #mobile-menu-btn {
+            transition: all 0.25s;
+        }
+        #mobile-menu-btn:hover {
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        /* ============ TEAM PAGE PHILOSOPHY SECTION ============ */
+        #team-page .bg-black\\/40 {
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1), 0 0 45px rgba(255, 150, 0, 0.05);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-sans antialiased flex flex-col min-h-screen">
+<body class="text-white font-sans antialiased flex flex-col min-h-screen relative">
+
+    <!-- SUN AURA BACKGROUND OVERLAY -->
+    <div class="sun-aura-bg fixed inset-0 pointer-events-none"></div>
 
     <!-- LOGIN MODAL -->
-    <div id="login-modal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-4 transition-all duration-200">
-        <div class="bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-gold/40 shadow-2xl transform transition-all">
-            <h3 class="text-3xl font-bold mb-6 text-center text-gold">🔐 Login / Sign Up</h3>
-            <input id="login-email" type="email" placeholder="Email address" class="w-full bg-slate-800 p-4 rounded-xl mb-4 border border-slate-600 focus:border-gold focus:outline-none text-white">
-            <input id="login-password" type="password" placeholder="Password" class="w-full bg-slate-800 p-4 rounded-xl mb-6 border border-slate-600 focus:border-gold focus:outline-none text-white">
+    <div id="login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-all duration-200" style="background: rgba(0,0,0,0.85);">
+        <div class="bg-slate-900/95 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full border border-gold/40 shadow-2xl transform transition-all relative">
+            <h3 class="text-3xl font-bold mb-6 text-center text-gold" style="text-shadow: 0 0 20px rgba(212,175,55,0.5);">🔐 Login / Sign Up</h3>
+            <input id="login-email" type="email" placeholder="Email address" class="w-full bg-slate-800 p-4 rounded-xl mb-4 border border-slate-600 focus:border-gold focus:outline-none text-white transition-all duration-200">
+            <input id="login-password" type="password" placeholder="Password" class="w-full bg-slate-800 p-4 rounded-xl mb-6 border border-slate-600 focus:border-gold focus:outline-none text-white transition-all duration-200">
             <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-gold to-yellow-500 text-black py-4 rounded-2xl text-xl font-bold hover:scale-[1.02] transition-all btn-shine shadow-xl">Login</button>
             <p class="text-center text-sm opacity-70 mt-4">Demo: test@test.com / 123456</p>
             <button onclick="closeModal('login-modal')" class="absolute top-4 right-4 text-white text-2xl hover:text-gold transition">✕</button>
@@ -66,32 +513,32 @@
     </div>
 
     <!-- CART MODAL -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-4">
+    <div id="cart-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.85);">
         <div class="bg-slate-900/95 backdrop-blur-xl rounded-3xl p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto border border-gold/40 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-4xl font-bold flex gap-2">🛒 <span>Your Cart</span></h3>
-                <button onclick="closeCart()" class="text-3xl hover:bg-white/10 p-2 rounded-full w-12 h-12 flex items-center justify-center">✕</button>
+                <h3 class="text-4xl font-bold flex gap-2" style="text-shadow: 0 0 18px rgba(212,175,55,0.4);">🛒 <span>Your Cart</span></h3>
+                <button onclick="closeCart()" class="text-3xl hover:bg-white/10 p-2 rounded-full w-12 h-12 flex items-center justify-center transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.5)]">✕</button>
             </div>
             <div id="cart-items-container" class="mb-8 min-h-[200px]"></div>
-            <div class="text-3xl font-bold text-right mb-6 text-gold border-t border-gold/30 pt-6">Total: $<span id="cart-total-price">0.00</span></div>
+            <div class="text-3xl font-bold text-right mb-6 text-gold border-t border-gold/30 pt-6" style="text-shadow: 0 0 12px rgba(212,175,55,0.3);">Total: $<span id="cart-total-price">0.00</span></div>
             <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-gold to-amber-500 text-black py-5 rounded-2xl text-2xl font-bold hover:scale-[1.01] transition-all btn-shine">Proceed to Checkout →</button>
         </div>
     </div>
 
     <!-- CHECKOUT MODAL -->
-    <div id="checkout-modal" class="fixed inset-0 bg-black/80 z-[110] hidden items-center justify-center p-4">
+    <div id="checkout-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4" style="background: rgba(0,0,0,0.85);">
         <div class="bg-slate-900/95 backdrop-blur-xl rounded-3xl p-7 max-w-2xl w-full border border-gold/40 shadow-2xl">
-            <h3 class="text-3xl font-bold mb-5 text-center text-green-400">🔒 Secure Checkout</h3>
+            <h3 class="text-3xl font-bold mb-5 text-center text-green-400" style="text-shadow: 0 0 18px rgba(74,222,128,0.4);">🔒 Secure Checkout</h3>
             <div class="space-y-4 mb-8">
-                <input id="full-name" placeholder="Full Name *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
-                <input id="shipping-address" placeholder="Shipping Address *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
-                <input id="phone-number" placeholder="Phone Number *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
+                <input id="full-name" placeholder="Full Name *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
+                <input id="shipping-address" placeholder="Shipping Address *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
+                <input id="phone-number" placeholder="Phone Number *" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
                 <div class="grid grid-cols-2 gap-4">
-                    <input id="card-number" placeholder="Card Number" class="bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
-                    <input id="expiry-date" placeholder="MM/YY" class="bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
+                    <input id="card-number" placeholder="Card Number" class="bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
+                    <input id="expiry-date" placeholder="MM/YY" class="bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
                 </div>
-                <input id="cvv-code" placeholder="CVV" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
-                <select id="payment-select" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none">
+                <input id="cvv-code" placeholder="CVV" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
+                <select id="payment-select" class="w-full bg-slate-800 p-4 rounded-xl border border-slate-600 focus:border-gold outline-none transition-all duration-200">
                     <option>Credit/Debit Card</option><option>GCash</option><option>PayMaya</option><option>COD (Cash on Delivery)</option>
                 </select>
             </div>
@@ -123,21 +570,23 @@
     </header>
 
     <!-- MAIN CONTENT (pages) -->
-    <main class="flex-grow">
+    <main class="flex-grow relative z-0">
         <!-- HOME CAROUSEL -->
         <section id="home-page" class="page-section active relative min-h-screen">
             <div class="splide hero-carousel w-full h-screen" id="hero-carousel-instance">
                 <div class="splide__track">
                     <ul class="splide__list">
-                        <li class="splide__slide flex items-center justify-center bg-gradient-to-r from-indigo-900 to-purple-800 text-center p-8">
-                            <div class="max-w-3xl mx-auto">
+                        <li class="splide__slide flex items-center justify-center bg-gradient-to-r from-indigo-900 to-purple-800 text-center p-8 relative overflow-hidden">
+                            <div class="sun-flare"></div>
+                            <div class="max-w-3xl mx-auto relative z-10">
                                 <h2 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-2xl">Timeless Elegance</h2>
                                 <p class="text-xl md:text-2xl mb-12 opacity-95">Discover handcrafted luxury jewelry. Premium quality.</p>
                                 <button onclick="showPage('all')" class="bg-gradient-to-r from-gold to-yellow-500 text-black px-12 py-5 rounded-2xl text-2xl font-bold hover:shadow-2xl transition-all btn-shine">Shop Collection →</button>
                             </div>
                         </li>
-                        <li class="splide__slide flex items-center justify-center bg-gradient-to-r from-amber-800 to-rose-800 text-center p-8">
-                            <div class="max-w-3xl mx-auto">
+                        <li class="splide__slide flex items-center justify-center bg-gradient-to-r from-amber-800 to-rose-800 text-center p-8 relative overflow-hidden">
+                            <div class="sun-flare"></div>
+                            <div class="max-w-3xl mx-auto relative z-10">
                                 <h2 class="text-5xl md:text-7xl font-bold mb-6">20% OFF New Arrivals</h2>
                                 <button onclick="showPage('all')" class="bg-black text-gold px-12 py-5 rounded-2xl text-2xl font-bold border-2 border-gold transition-all">Exclusive Sale</button>
                             </div>
@@ -148,28 +597,28 @@
         </section>
 
         <!-- ALL PRODUCTS -->
-        <section id="all-page" class="page-section py-24 px-4 bg-slate-900/30 min-h-screen">
+        <section id="all-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(15,8,20,0.55);">
             <div class="container mx-auto">
                 <div class="flex flex-wrap justify-between items-center mb-12">
                     <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gold to-amber-300 inline-block">💎 All Masterpieces (25+ Items)</h2>
-                    <button onclick="showPage('home')" class="mt-4 md:mt-0 bg-white/10 px-7 py-3 rounded-2xl hover:bg-gold/20 border border-gold/40">← Back Home</button>
+                    <button onclick="showPage('home')" class="mt-4 md:mt-0 bg-white/10 px-7 py-3 rounded-2xl hover:bg-gold/20 border border-gold/40 transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.35)]">← Back Home</button>
                 </div>
                 <div id="all-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-7"></div>
             </div>
         </section>
 
         <!-- CATEGORY PAGES -->
-        <section id="earrings-page" class="page-section py-24 px-4 bg-gradient-to-br from-indigo-900/40 to-purple-900/40 min-h-screen"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">✨ Earrings Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl">← All Products</button></div><div id="earrings-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
-        <section id="rings-page" class="page-section py-24 px-4 bg-gradient-to-br from-emerald-900/40 to-teal-900/40 min-h-screen"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">💍 Rings Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl">← All Products</button></div><div id="rings-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
-        <section id="necklaces-page" class="page-section py-24 px-4 bg-gradient-to-br from-rose-900/40 to-pink-900/40 min-h-screen"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">📿 Necklaces Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl">← All Products</button></div><div id="necklaces-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
-        <section id="bracelets-page" class="page-section py-24 px-4 bg-gradient-to-br from-amber-900/40 to-orange-900/40 min-h-screen"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">📿 Bracelets Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl">← All Products</button></div><div id="bracelets-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
+        <section id="earrings-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(20,10,30,0.5);"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">✨ Earrings Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 border border-gold/30 transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">← All Products</button></div><div id="earrings-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
+        <section id="rings-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(15,20,25,0.5);"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">💍 Rings Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 border border-gold/30 transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">← All Products</button></div><div id="rings-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
+        <section id="necklaces-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(25,10,25,0.5);"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">📿 Necklaces Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 border border-gold/30 transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">← All Products</button></div><div id="necklaces-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
+        <section id="bracelets-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(20,15,10,0.5);"><div class="container mx-auto"><div class="flex flex-wrap justify-between items-center mb-12"><h2 class="text-4xl font-bold">📿 Bracelets Collection</h2><button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 border border-gold/30 transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">← All Products</button></div><div id="bracelets-category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div></div></section>
 
         <!-- ORDER HISTORY PAGE -->
-        <section id="history-page" class="page-section py-24 px-4 bg-gradient-to-br from-slate-800/50 to-gray-900/50 min-h-screen">
+        <section id="history-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(12,10,18,0.55);">
             <div class="container mx-auto max-w-5xl">
                 <div class="flex flex-wrap justify-between items-center mb-12">
                     <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gold to-amber-300 inline-block">📜 Order History</h2>
-                    <button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 transition">← Continue Shopping</button>
+                    <button onclick="showPage('all')" class="bg-white/10 px-6 py-2 rounded-2xl hover:bg-gold/20 transition border border-gold/30 hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">← Continue Shopping</button>
                 </div>
                 <div id="order-history-container" class="space-y-5">
                     <div class="text-center py-20 text-2xl opacity-60">✨ No orders yet. Complete a purchase to see your history.</div>
@@ -177,47 +626,47 @@
             </div>
         </section>
 
-        <!-- ARTISANS / TEAM PAGE (added) -->
-        <section id="team-page" class="page-section py-24 px-4 bg-gradient-to-br from-slate-800/40 to-indigo-900/40 min-h-screen">
+        <!-- ARTISANS / TEAM PAGE -->
+        <section id="team-page" class="page-section py-24 px-4 min-h-screen" style="background: rgba(10,8,22,0.5);">
             <div class="container mx-auto max-w-6xl">
                 <div class="text-center mb-16">
                     <h2 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gold to-yellow-400 bg-clip-text text-transparent mb-4">The Artisans Behind the Magic</h2>
                     <p class="text-xl opacity-80 max-w-2xl mx-auto">Meet the passionate minds and skilled hands that bring each piece of Quinet Jewelry to life.</p>
-                    <div class="w-24 h-1 bg-gold mx-auto mt-6 rounded-full"></div>
+                    <div class="w-24 h-1 bg-gold mx-auto mt-6 rounded-full" style="box-shadow: 0 0 14px rgba(212,175,55,0.6);"></div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- Team Member 1: Owner & Master Jeweler -->
+                    <!-- Team Member 1 -->
                     <div class="team-card bg-slate-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-gold/30 hover:border-gold/80 transition-all duration-300">
                         <div class="overflow-hidden h-80">
-                            <img src="/Artisanimages/kjj.jpg" alt="  - Founder" class="team-img w-full h-full object-cover object-top">
+                            <img src="/Artisanimages/kjj.jpg" alt="Kj Tabadero - Founder" class="team-img w-full h-full object-cover object-top">
                         </div>
                         <div class="p-6 text-center">
                             <h3 class="text-2xl font-bold text-gold">Kj Tabadero</h3>
                             <p class="text-sm uppercase tracking-wider opacity-70 mb-3">Founder & Master Jeweler</p>
-                            <p class="text-gray-300 leading-relaxed"> Kj founded Quinet Jewelry to blend classic European craftsmanship with modern elegance. Every piece is personally inspected by him.</p>
+                            <p class="text-gray-300 leading-relaxed">Kj founded Quinet Jewelry to blend classic European craftsmanship with modern elegance. Every piece is personally inspected by him.</p>
                             <div class="mt-4 flex justify-center gap-3 text-xl">
                                 <span>🔨</span><span>💎</span><span>🏆</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Team Member 2: Creative Designer -->
+                    <!-- Team Member 2 -->
                     <div class="team-card bg-slate-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-gold/30 hover:border-gold/80 transition-all duration-300">
                         <div class="overflow-hidden h-80">
-                            <img src="/Artisanimages/michael servito.png" alt="  - Designer" class="team-img w-full h-full object-cover">
+                            <img src="/Artisanimages/michael servito.png" alt="Michael Servito - Designer" class="team-img w-full h-full object-cover">
                         </div>
                         <div class="p-6 text-center">
                             <h3 class="text-2xl font-bold text-gold">Michael Servito</h3>
                             <p class="text-sm uppercase tracking-wider opacity-70 mb-3">Creative Director & Designer</p>
-                            <p class="text-gray-300 leading-relaxed">visionary sketches and gemstone knowledge bring unique, timeless collections. Her work has been featured in Milan Jewelry Week, combining art deco inspirations with contemporary flair.</p>
+                            <p class="text-gray-300 leading-relaxed">Visionary sketches and gemstone knowledge bring unique, timeless collections. Her work has been featured in Milan Jewelry Week, combining art deco inspirations with contemporary flair.</p>
                             <div class="mt-4 flex justify-center gap-3 text-xl">
                                 <span>✏️</span><span>💍</span><span>🎨</span>
                             </div>
                         </div>
                     </div>
-                    <!-- Team Member 3: Craftsmanship Director -->
+                    <!-- Team Member 3 -->
                     <div class="team-card bg-slate-800/70 backdrop-blur-sm rounded-2xl overflow-hidden border border-gold/30 hover:border-gold/80 transition-all duration-300">
                         <div class="overflow-hidden h-80">
-                            <img src="/Artisanimages/don don manalo.png" alt="  - Craftsman" class="team-img w-full h-full object-cover">
+                            <img src="/Artisanimages/don don manalo.png" alt="Don Don Manalo - Craftsman" class="team-img w-full h-full object-cover">
                         </div>
                         <div class="p-6 text-center">
                             <h3 class="text-2xl font-bold text-gold">Don Don Manalo</h3>
@@ -231,15 +680,15 @@
                 </div>
                 <!-- Additional craftsmanship story -->
                 <div class="mt-20 text-center bg-black/40 rounded-3xl p-8 border border-gold/20">
-                    <h3 class="text-2xl font-semibold text-gold mb-3">✨ Our Philosophy ✨</h3>
+                    <h3 class="text-2xl font-semibold text-gold mb-3" style="text-shadow: 0 0 14px rgba(212,175,55,0.4);">✨ Our Philosophy ✨</h3>
                     <p class="max-w-3xl mx-auto opacity-90">Every Quinet piece is a marriage of old-world techniques and ethical sourcing. From hand-selected gemstones to recycled gold, we honor both tradition and the planet. Our artisans pour weeks into each collection to ensure heirloom quality.</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER (with artisans link) -->
-    <footer class="bg-black/80 backdrop-blur-md border-t border-gold/40 mt-16 py-10 px-5">
+    <!-- FOOTER -->
+    <footer class="bg-black/80 backdrop-blur-md border-t border-gold/40 mt-16 py-10 px-5 relative z-0" style="box-shadow: 0 -4px 30px rgba(212,175,55,0.12);">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
             <div>
                 <h3 class="text-2xl font-bold bg-gradient-to-r from-gold to-yellow-400 bg-clip-text text-transparent mb-4">Quinet Jewelry</h3>
@@ -294,23 +743,35 @@
             { id: 3, name: 'Pearl Drop Earrings', price: 129, img: '/images/teardrop pearl.jpg', category: 'earrings' },
             { id: 4, name: 'Emerald Stud Earrings', price: 159, img: '/images/Rima-_Emerald_-Earrings_.jpg', category: 'earrings' },
             { id: 5, name: 'Rose Gold Hoops', price: 109, img: '/images/rosegold hoops.webp', category: 'earrings' },
-            { id: 6, name: 'Sapphire Dangles', price: 249, img: '/images/double-dangle-sapphire-earrings.webp', category: 'earrings' },
-            { id: 7, name: 'Silver Chain Earrings', price: 69, img: '/images/SterlingSilverChainWithPendant_Earrings.webp', category: 'earrings' },
+            { id: 6, name: 'Sapphire Dangles', price: 249, img: '/images/double-dangle-sapphire-earrings.webp',
+                category: 'earrings' },
+            { id: 7, name: 'Silver Chain Earrings', price: 69,
+                img: '/images/SterlingSilverChainWithPendant_Earrings.webp', category: 'earrings' },
             { id: 8, name: 'Ruby Cluster Earrings', price: 189, img: '/images/rubydluster.webp', category: 'earrings' },
-            { id: 9, name: 'Diamond Engagement Ring 1ct', price: 499, img: '/images/diamond engagement.webp', category: 'rings' },
+            { id: 9, name: 'Diamond Engagement Ring 1ct', price: 499, img: '/images/diamond engagement.webp',
+                category: 'rings' },
             { id: 10, name: '18K Gold Wedding Band', price: 299, img: '/images/18kgoldwedring.jpg', category: 'rings' },
-            { id: 11, name: 'Emerald Solitaire Ring', price: 379, img: '/images/emeraldengagementring.webp', category: 'rings' },
-            { id: 12, name: 'Pearl Stackable Rings (Set of 3)', price: 89, img: '/images/pearlstackable.webp', category: 'rings' },
+            { id: 11, name: 'Emerald Solitaire Ring', price: 379, img: '/images/emeraldengagementring.webp',
+            category: 'rings' },
+            { id: 12, name: 'Pearl Stackable Rings (Set of 3)', price: 89, img: '/images/pearlstackable.webp',
+                category: 'rings' },
             { id: 13, name: 'Rose Gold Signet Ring', price: 139, img: '/images/signetring.webp', category: 'rings' },
             { id: 14, name: 'Sapphire Eternity Ring', price: 449, img: '/images/eternityring.webp', category: 'rings' },
-            { id: 15, name: 'Diamond Tennis Necklace', price: 599, img: '/images/tennisnecklace.jpg', category: 'necklaces' },
-            { id: 16, name: '14K Gold Chain Necklace', price: 179, img: '/images/14k_yellow_gold_chain.webp', category: 'necklaces' },
-            { id: 17, name: 'Pearl Strand Necklace', price: 299, img: '/images/pearlnecklace.webp', category: 'necklaces' },
-            { id: 18, name: 'Ruby Pendant Necklace', price: 249, img: '/images/elegant-ruby-pendant-stockcake.webp', category: 'necklaces' },
-            { id: 19, name: 'Emerald Layered Necklace', price: 349, img: '/images/laeredemeralnecklace.webp', category: 'necklaces' },
-            { id: 20, name: 'Silver Heart Necklace', price: 99, img: '/images/silverheartnecklace.webp', category: 'necklaces' },
+            { id: 15, name: 'Diamond Tennis Necklace', price: 599, img: '/images/tennisnecklace.jpg',
+            category: 'necklaces' },
+            { id: 16, name: '14K Gold Chain Necklace', price: 179, img: '/images/14k_yellow_gold_chain.webp',
+                category: 'necklaces' },
+            { id: 17, name: 'Pearl Strand Necklace', price: 299, img: '/images/pearlnecklace.webp',
+            category: 'necklaces' },
+            { id: 18, name: 'Ruby Pendant Necklace', price: 249, img: '/images/elegant-ruby-pendant-stockcake.webp',
+                category: 'necklaces' },
+            { id: 19, name: 'Emerald Layered Necklace', price: 349, img: '/images/laeredemeralnecklace.webp',
+                category: 'necklaces' },
+            { id: 20, name: 'Silver Heart Necklace', price: 99, img: '/images/silverheartnecklace.webp',
+                category: 'necklaces' },
             { id: 21, name: 'Gold Link Bracelet', price: 199, img: '/images/goldlink.webp', category: 'bracelets' },
-            { id: 22, name: 'Diamond Tennis Bracelet', price: 799, img: '/images/diamondtennisbracelet.webp', category: 'bracelets' },
+            { id: 22, name: 'Diamond Tennis Bracelet', price: 799, img: '/images/diamondtennisbracelet.webp',
+                category: 'bracelets' },
             { id: 23, name: 'Pearl Bracelet', price: 159, img: '/images/pearl bracelet.webp', category: 'bracelets' },
             { id: 24, name: 'Rose Gold Cuff', price: 279, img: '/images/rosegoldcuff.jpg', category: 'bracelets' },
             { id: 25, name: 'Charm Bracelet Set', price: 129, img: '/images/charmbracelet.webp', category: 'bracelets' }
@@ -327,7 +788,7 @@
             const key = `orderHistory_${email}`;
             const stored = localStorage.getItem(key);
             if (stored) {
-                try { return JSON.parse(stored); } catch(e) { return []; }
+                try { return JSON.parse(stored); } catch (e) { return []; }
             }
             return [];
         }
@@ -352,16 +813,19 @@
             const container = document.getElementById('order-history-container');
             if (!container) return;
             if (!currentUserEmail) {
-                container.innerHTML = `<div class="text-center py-20 text-2xl opacity-60">🔒 Please login to view your order history.</div>`;
+                container.innerHTML =
+                    `<div class="text-center py-20 text-2xl opacity-60">🔒 Please login to view your order history.</div>`;
                 return;
             }
             const history = loadHistoryForUser(currentUserEmail);
             if (history.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-2xl opacity-60">✨ No orders yet. Your purchase history will appear here.</div>`;
+                container.innerHTML =
+                    `<div class="text-center py-20 text-2xl opacity-60">✨ No orders yet. Your purchase history will appear here.</div>`;
                 return;
             }
             container.innerHTML = history.map((order, idx) => {
-                const itemsList = order.items.map(item => `${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}`).join('<br>');
+                const itemsList = order.items.map(item =>
+                    `${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}`).join('<br>');
                 return `
                     <div class="history-card bg-slate-800/70 rounded-2xl p-6 border-l-8 border-gold/60 shadow-md hover:shadow-gold/20 transition-all">
                         <div class="flex flex-wrap justify-between items-start gap-3">
@@ -384,14 +848,18 @@
                     </div>
                 `;
             }).join('');
+            // GSAP: animate history cards
+            gsap.fromTo('#order-history-container .history-card', { opacity: 0, y: 20, scale: 0.96 }, { opacity: 1, y: 0,
+                scale: 1, duration: 0.4, stagger: 0.08, ease: 'power2.out' });
         }
 
         // ---------- CART & PERSISTENCE ----------
         function saveCart() { localStorage.setItem('quinet_cart', JSON.stringify(cart)); }
+
         function loadCartFromStorage() {
             const stored = localStorage.getItem('quinet_cart');
             if (stored) {
-                try { cart = JSON.parse(stored); } catch(e) { cart = []; }
+                try { cart = JSON.parse(stored); } catch (e) { cart = []; }
                 updateCartUI();
             }
         }
@@ -403,7 +871,8 @@
             container.innerHTML = '';
             for (let prod of filtered) {
                 const card = document.createElement('div');
-                card.className = 'product-card bg-slate-800/80 rounded-2xl p-5 border border-slate-700 hover:border-gold/70 transition-all duration-200';
+                card.className =
+                    'product-card bg-slate-800/80 rounded-2xl p-5 border border-slate-700 hover:border-gold/70 transition-all duration-200';
                 card.innerHTML = `
                     <div class="h-64 rounded-xl bg-cover bg-center mb-4" style="background-image: url('${prod.img}'); background-size: cover;"></div>
                     <h3 class="text-xl font-bold mb-2 truncate">${prod.name}</h3>
@@ -419,6 +888,9 @@
                 btn.removeEventListener('click', addToCartHandler);
                 btn.addEventListener('click', addToCartHandler);
             });
+            // GSAP: stagger entrance for newly rendered product cards
+            gsap.fromTo(container.querySelectorAll('.product-card'), { opacity: 0, y: 25, scale: 0.94 }, { opacity: 1,
+                y: 0, scale: 1, duration: 0.4, stagger: 0.05, ease: 'back.out(1.3)' });
         }
 
         function addToCartHandler(e) {
@@ -433,8 +905,11 @@
             else cart.push({ id, name, price, img, qty: 1 });
             updateCartUI();
             saveCart();
-            gsap.to(btn, { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1 });
-            gsap.to('#cart-count-badge', { scale: 1.25, duration: 0.15, yoyo: true, repeat: 1 });
+            gsap.to(btn, { scale: 0.9, duration: 0.08, yoyo: true, repeat: 1, ease: 'power2.inOut' });
+            gsap.to('#cart-count-badge', { scale: 1.4, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' });
+            // glow pulse on badge
+            gsap.fromTo('#cart-count-badge', { boxShadow: '0 0 0px rgba(255,180,40,0)' }, { boxShadow: '0 0 20px rgba(255,180,40,0.9), 0 0 40px rgba(255,140,0,0.5)',
+                duration: 0.35, yoyo: true, repeat: 1, ease: 'power2.out' });
         }
 
         function updateCartUI() {
@@ -443,7 +918,8 @@
             const container = document.getElementById('cart-items-container');
             if (!container) return;
             if (cart.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-2xl opacity-60">✨ Your cart is empty. Add some luxe pieces ✨</div>`;
+                container.innerHTML =
+                    `<div class="text-center py-20 text-2xl opacity-60">✨ Your cart is empty. Add some luxe pieces ✨</div>`;
                 document.getElementById('cart-total-price').innerText = '0.00';
                 return;
             }
@@ -457,9 +933,9 @@
                             <div class="truncate"><h4 class="font-bold text-lg">${item.name}</h4><span class="text-gold">$${item.price}</span></div>
                         </div>
                         <div class="flex items-center gap-3 mt-3 md:mt-0">
-                            <button onclick="changeItemQty(${item.id}, -1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600">−</button>
+                            <button onclick="changeItemQty(${item.id}, -1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600 transition-all hover:shadow-[0_0_10px_rgba(212,175,55,0.4)]">−</button>
                             <span class="text-xl font-bold w-12 text-center">${item.qty}</span>
-                            <button onclick="changeItemQty(${item.id}, 1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600">+</button>
+                            <button onclick="changeItemQty(${item.id}, 1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600 transition-all hover:shadow-[0_0_10px_rgba(212,175,55,0.4)]">+</button>
                             <span class="text-xl font-bold text-gold ml-4 min-w-[70px] text-right">$${(item.price * item.qty).toFixed(2)}</span>
                             <button onclick="removeCartItem(${item.id})" class="ml-2 text-red-400 text-2xl px-2 hover:scale-110 transition">🗑️</button>
                         </div>
@@ -497,6 +973,33 @@
             else if (pageId === 'history') renderOrderHistory();
             // team page has no dynamic grid, just static HTML
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // GSAP: enhanced entrance animation for the activated section
+            if (target) {
+                gsap.fromTo(target, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out',
+                    clearProps: 'transform' });
+                // animate headings
+                const headings = target.querySelectorAll('h2');
+                if (headings.length && pageId !== 'home') {
+                    gsap.fromTo(headings, { opacity: 0, y: 18, scale: 0.96 }, { opacity: 1, y: 0, scale: 1,
+                        duration: 0.5, stagger: 0.1, ease: 'power2.out' });
+                }
+            }
+            // If team page, animate team cards
+            if (pageId === 'team') {
+                gsap.fromTo('#team-page .team-card', { opacity: 0, y: 30, scale: 0.92 }, { opacity: 1, y: 0, scale: 1,
+                    duration: 0.45, stagger: 0.1, ease: 'back.out(1.4)', delay: 0.2 });
+                gsap.fromTo('#team-page .bg-black\\/40', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5,
+                    delay: 0.5, ease: 'power2.out' });
+            }
+            // If home page, animate hero text
+            if (pageId === 'home') {
+                gsap.fromTo('.hero-carousel h2', { opacity: 0, scale: 0.85, y: 15 }, { opacity: 1, scale: 1, y: 0,
+                    duration: 0.7, ease: 'power3.out', delay: 0.3 });
+                gsap.fromTo('.hero-carousel p', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, delay: 0.5,
+                    ease: 'power2.out' });
+                gsap.fromTo('.hero-carousel button', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5,
+                    delay: 0.65, ease: 'back.out(1.5)' });
+            }
         }
 
         function triggerAuth() {
@@ -519,7 +1022,9 @@
         function openLoginModal() {
             const modal = document.getElementById('login-modal');
             modal.style.display = 'flex';
-            gsap.fromTo(modal.children[0], { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.2 });
+            const inner = modal.children[0];
+            gsap.fromTo(inner, { opacity: 0, scale: 0.9, y: -30 }, { opacity: 1, scale: 1, y: 0, duration: 0.35,
+                ease: 'back.out(1.3)' });
         }
 
         window.handleLogin = () => {
@@ -543,22 +1048,35 @@
 
         function closeModal(modalId) {
             const el = document.getElementById(modalId);
-            if (el) el.style.display = 'none';
+            if (el) {
+                gsap.to(el.children[0], { opacity: 0, scale: 0.9, duration: 0.2, onComplete: () => { el.style.display =
+                        'none'; } });
+            }
         }
+
         function openCartModal() {
             updateCartUI();
             const cartModal = document.getElementById('cart-modal');
             cartModal.style.display = 'flex';
-            gsap.fromTo(cartModal.children[0], { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2 });
+            gsap.fromTo(cartModal.children[0], { scale: 0.9, opacity: 0, y: -25 }, { scale: 1, opacity: 1, y: 0,
+                duration: 0.35, ease: 'back.out(1.3)' });
         }
-        function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+
+        function closeCart() {
+            const cartModal = document.getElementById('cart-modal');
+            gsap.to(cartModal.children[0], { opacity: 0, scale: 0.9, duration: 0.2, onComplete: () => { cartModal.style
+                    .display = 'none'; } });
+        }
+
         function proceedToCheckout() {
             if (cart.length === 0) { alert('Your cart is empty! Add gorgeous jewelry first 💎'); return; }
-            if (!isLoggedIn) { alert('Please login to continue checkout'); openLoginModal(); return; }
+            if (!isLoggedIn) { alert('Please login to continue checkout');
+                openLoginModal(); return; }
             closeCart();
             const chkModal = document.getElementById('checkout-modal');
             chkModal.style.display = 'flex';
-            gsap.fromTo(chkModal.children[0], { scale: 0.96 }, { scale: 1, duration: 0.2 });
+            gsap.fromTo(chkModal.children[0], { scale: 0.9, opacity: 0, y: -20 }, { scale: 1, opacity: 1, y: 0,
+                duration: 0.35, ease: 'back.out(1.3)' });
         }
         window.finalizePayment = () => {
             const name = document.getElementById('full-name').value.trim();
@@ -579,7 +1097,9 @@
                 customerName: name
             };
             addOrderToHistory(newOrder);
-            alert(`🎉 ORDER CONFIRMED! 🎉\nOrder #${orderId}\nTotal: $${total.toFixed(2)}\nShipping to: ${address}\nPayment: ${method}\n\nYour order has been saved to history.`);
+            alert(
+                `🎉 ORDER CONFIRMED! 🎉\nOrder #${orderId}\nTotal: $${total.toFixed(2)}\nShipping to: ${address}\nPayment: ${method}\n\nYour order has been saved to history.`
+                );
             cart = [];
             updateCartUI();
             saveCart();
@@ -597,8 +1117,10 @@
             const mobileBtn = document.getElementById('mobile-menu-btn');
             if (mobileBtn) {
                 mobileBtn.onclick = () => {
-                    const pages = ['home','all','earrings','rings','necklaces','bracelets','history','team'];
-                    const choice = prompt('Navigate to:\n1.Home 2.All 3.Earrings 4.Rings 5.Necklaces 6.Bracelets 7.History 8.Artisans\nEnter number (1-8):');
+                    const pages = ['home', 'all', 'earrings', 'rings', 'necklaces', 'bracelets', 'history', 'team'];
+                    const choice = prompt(
+                        'Navigate to:\n1.Home 2.All 3.Earrings 4.Rings 5.Necklaces 6.Bracelets 7.History 8.Artisans\nEnter number (1-8):'
+                        );
                     if (choice && !isNaN(choice)) {
                         const idx = parseInt(choice) - 1;
                         if (pages[idx]) showPage(pages[idx]);
@@ -609,6 +1131,7 @@
         }
 
         let splideInstance = null;
+
         function initCarousel() {
             if (document.querySelector('.hero-carousel') && !splideInstance) {
                 splideInstance = new Splide('.hero-carousel', {
@@ -621,6 +1144,25 @@
                     pagination: true
                 });
                 splideInstance.mount();
+                // GSAP: entrance animation for initial hero slide
+                gsap.fromTo('.hero-carousel .splide__slide.is-active h2', { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1,
+                    scale: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.4 });
+                gsap.fromTo('.hero-carousel .splide__slide.is-active p', { opacity: 0, y: 12 }, { opacity: 1, y: 0,
+                    duration: 0.5, delay: 0.6, ease: 'power2.out' });
+                gsap.fromTo('.hero-carousel .splide__slide.is-active button', { opacity: 0, y: 18 }, { opacity: 1, y: 0,
+                    duration: 0.5, delay: 0.75, ease: 'back.out(1.5)' });
+                // Re-trigger animations on slide change
+                splideInstance.on('active', () => {
+                    const activeSlide = document.querySelector('.hero-carousel .splide__slide.is-active');
+                    if (activeSlide) {
+                        gsap.fromTo(activeSlide.querySelector('h2'), { opacity: 0, scale: 0.85, y: 15 }, { opacity: 1,
+                            scale: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+                        gsap.fromTo(activeSlide.querySelector('p'), { opacity: 0, y: 10 }, { opacity: 1, y: 0,
+                            duration: 0.4, delay: 0.2, ease: 'power2.out' });
+                        gsap.fromTo(activeSlide.querySelector('button'), { opacity: 0, y: 12 }, { opacity: 1, y: 0,
+                            duration: 0.4, delay: 0.35, ease: 'back.out(1.3)' });
+                    }
+                });
             }
         }
 
@@ -640,7 +1182,15 @@
                 authBtn.onclick = triggerAuth;
             }
             renderOrderHistory();
-            console.log('✨ Quinet Jewelry — fully loaded with Artisans page');
+            // GSAP: continuous subtle glow pulse on key elements
+            gsap.to('header h1', { textShadow: '0 0 35px rgba(255,200,60,0.8), 0 0 65px rgba(255,160,30,0.5), 0 0 90px rgba(255,120,0,0.25)',
+                duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            gsap.to('#cart-header-btn', { boxShadow: '0 0 20px rgba(255,180,40,0.55), 0 0 35px rgba(255,140,0,0.2)',
+                duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            // floating pulse on team page philosophy section
+            gsap.to('#team-page .bg-black\\/40', { boxShadow: '0 0 25px rgba(212,175,55,0.15), 0 0 50px rgba(255,150,0,0.06)',
+                duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            console.log('✨ Quinet Jewelry — fully loaded with Escanor Sun God theme ☀️');
         });
     </script>
 </body>
