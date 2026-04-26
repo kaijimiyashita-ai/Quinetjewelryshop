@@ -376,17 +376,18 @@
                 height: 3px;
             }
         }
+        /* CRISP LOGO GLOW – less blur, more radiant */
         header h1 {
-            text-shadow: 0 0 22px rgba(212, 175, 55, 0.55), 0 0 45px rgba(255, 150, 0, 0.3), 0 0 70px rgba(255, 120, 0, 0.15);
+            text-shadow: 0 0 6px rgba(255, 200, 60, 0.9), 0 0 14px rgba(255, 150, 0, 0.6), 0 0 25px rgba(255, 100, 0, 0.35);
             animation: logoGlow 3s ease-in-out infinite;
         }
         @keyframes logoGlow {
             0%,
             100% {
-                text-shadow: 0 0 22px rgba(212, 175, 55, 0.55), 0 0 45px rgba(255, 150, 0, 0.3);
+                text-shadow: 0 0 6px rgba(255, 200, 60, 0.9), 0 0 14px rgba(255, 150, 0, 0.6), 0 0 25px rgba(255, 100, 0, 0.35);
             }
             50% {
-                text-shadow: 0 0 35px rgba(255, 200, 60, 0.8), 0 0 65px rgba(255, 160, 30, 0.5), 0 0 90px rgba(255, 120, 0, 0.25);
+                text-shadow: 0 0 12px rgba(255, 220, 80, 1), 0 0 24px rgba(255, 160, 30, 0.85), 0 0 40px rgba(255, 120, 0, 0.5), 0 0 55px rgba(255, 100, 0, 0.25);
             }
         }
 
@@ -520,7 +521,7 @@
                 <button onclick="closeCart()" class="text-3xl hover:bg-white/10 p-2 rounded-full w-12 h-12 flex items-center justify-center transition-all hover:shadow-[0_0_15px_rgba(212,175,55,0.5)]">✕</button>
             </div>
             <div id="cart-items-container" class="mb-8 min-h-[200px]"></div>
-            <div class="text-3xl font-bold text-right mb-6 text-gold border-t border-gold/30 pt-6" style="text-shadow: 0 0 12px rgba(212,175,55,0.3);">Total: $<span id="cart-total-price">0.00</span></div>
+            <div class="text-3xl font-bold text-right mb-6 text-gold border-t border-gold/30 pt-6" style="text-shadow: 0 0 12px rgba(212,175,55,0.3);">Total: ₱<span id="cart-total-price">0.00</span></div>
             <button onclick="proceedToCheckout()" class="w-full bg-gradient-to-r from-gold to-amber-500 text-black py-5 rounded-2xl text-2xl font-bold hover:scale-[1.01] transition-all btn-shine">Proceed to Checkout →</button>
         </div>
     </div>
@@ -543,7 +544,7 @@
                 </select>
             </div>
             <button onclick="finalizePayment()" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-5 rounded-2xl text-2xl font-bold hover:scale-[1.01] transition-all shadow-2xl">💎 Pay Now Securely</button>
-            <p class="text-center text-sm mt-5 opacity-60">✅ SSL Secure • Free Shipping over $100</p>
+            <p class="text-center text-sm mt-5 opacity-60">✅ SSL Secure • Free Shipping over ₱5,000</p>
         </div>
     </div>
 
@@ -722,8 +723,8 @@
                 <h4 class="text-xl font-semibold text-gold mb-3">Contact</h4>
                 <ul class="space-y-2 text-sm opacity-80">
                     <li>📧 support@quinetjewelry.com</li>
-                    <li>📞 +1 (800) 555-7832</li>
-                    <li>📍 5th Avenue, New York, NY</li>
+                    <li>📞 +63 912 345 6789</li>
+                    <li>📍 Manila, Philippines</li>
                 </ul>
                 <div class="mt-4 flex justify-center md:justify-start gap-2">
                     <span class="text-2xl">💳</span><span class="text-2xl">📱</span><span class="text-2xl">💎</span>
@@ -738,43 +739,31 @@
     <script>
         // ------------------------- PRODUCT DATABASE (your custom images) -------------------------
         const PRODUCTS = [
-            { id: 1, name: '18K Gold Hoop Earrings', price: 89, img: '/images/18KGOLD.webp', category: 'earrings' },
-            { id: 2, name: 'Diamond Stud Earrings 0.5ct', price: 199, img: '/images/diamond stud.jpg', category: 'earrings' },
-            { id: 3, name: 'Pearl Drop Earrings', price: 129, img: '/images/teardrop pearl.jpg', category: 'earrings' },
-            { id: 4, name: 'Emerald Stud Earrings', price: 159, img: '/images/Rima-_Emerald_-Earrings_.jpg', category: 'earrings' },
-            { id: 5, name: 'Rose Gold Hoops', price: 109, img: '/images/rosegold hoops.webp', category: 'earrings' },
-            { id: 6, name: 'Sapphire Dangles', price: 249, img: '/images/double-dangle-sapphire-earrings.webp',
-                category: 'earrings' },
-            { id: 7, name: 'Silver Chain Earrings', price: 69,
-                img: '/images/SterlingSilverChainWithPendant_Earrings.webp', category: 'earrings' },
-            { id: 8, name: 'Ruby Cluster Earrings', price: 189, img: '/images/rubydluster.webp', category: 'earrings' },
-            { id: 9, name: 'Diamond Engagement Ring 1ct', price: 499, img: '/images/diamond engagement.webp',
-                category: 'rings' },
-            { id: 10, name: '18K Gold Wedding Band', price: 299, img: '/images/18kgoldwedring.jpg', category: 'rings' },
-            { id: 11, name: 'Emerald Solitaire Ring', price: 379, img: '/images/emeraldengagementring.webp',
-            category: 'rings' },
-            { id: 12, name: 'Pearl Stackable Rings (Set of 3)', price: 89, img: '/images/pearlstackable.webp',
-                category: 'rings' },
-            { id: 13, name: 'Rose Gold Signet Ring', price: 139, img: '/images/signetring.webp', category: 'rings' },
-            { id: 14, name: 'Sapphire Eternity Ring', price: 449, img: '/images/eternityring.webp', category: 'rings' },
-            { id: 15, name: 'Diamond Tennis Necklace', price: 599, img: '/images/tennisnecklace.jpg',
-            category: 'necklaces' },
-            { id: 16, name: '14K Gold Chain Necklace', price: 179, img: '/images/14k_yellow_gold_chain.webp',
-                category: 'necklaces' },
-            { id: 17, name: 'Pearl Strand Necklace', price: 299, img: '/images/pearlnecklace.webp',
-            category: 'necklaces' },
-            { id: 18, name: 'Ruby Pendant Necklace', price: 249, img: '/images/elegant-ruby-pendant-stockcake.webp',
-                category: 'necklaces' },
-            { id: 19, name: 'Emerald Layered Necklace', price: 349, img: '/images/laeredemeralnecklace.webp',
-                category: 'necklaces' },
-            { id: 20, name: 'Silver Heart Necklace', price: 99, img: '/images/silverheartnecklace.webp',
-                category: 'necklaces' },
-            { id: 21, name: 'Gold Link Bracelet', price: 199, img: '/images/goldlink.webp', category: 'bracelets' },
-            { id: 22, name: 'Diamond Tennis Bracelet', price: 799, img: '/images/diamondtennisbracelet.webp',
-                category: 'bracelets' },
-            { id: 23, name: 'Pearl Bracelet', price: 159, img: '/images/pearl bracelet.webp', category: 'bracelets' },
-            { id: 24, name: 'Rose Gold Cuff', price: 279, img: '/images/rosegoldcuff.jpg', category: 'bracelets' },
-            { id: 25, name: 'Charm Bracelet Set', price: 129, img: '/images/charmbracelet.webp', category: 'bracelets' }
+            { id: 1, name: '18K Gold Hoop Earrings', price: 4895, img: '/images/18KGOLD.webp', category: 'earrings' },
+            { id: 2, name: 'Diamond Stud Earrings 0.5ct', price: 10945, img: '/images/diamond stud.jpg', category: 'earrings' },
+            { id: 3, name: 'Pearl Drop Earrings', price: 7095, img: '/images/teardrop pearl.jpg', category: 'earrings' },
+            { id: 4, name: 'Emerald Stud Earrings', price: 8745, img: '/images/Rima-_Emerald_-Earrings_.jpg', category: 'earrings' },
+            { id: 5, name: 'Rose Gold Hoops', price: 5995, img: '/images/rosegold hoops.webp', category: 'earrings' },
+            { id: 6, name: 'Sapphire Dangles', price: 13695, img: '/images/double-dangle-sapphire-earrings.webp', category: 'earrings' },
+            { id: 7, name: 'Silver Chain Earrings', price: 3795, img: '/images/SterlingSilverChainWithPendant_Earrings.webp', category: 'earrings' },
+            { id: 8, name: 'Ruby Cluster Earrings', price: 10395, img: '/images/rubydluster.webp', category: 'earrings' },
+            { id: 9, name: 'Diamond Engagement Ring 1ct', price: 27445, img: '/images/diamond engagement.webp', category: 'rings' },
+            { id: 10, name: '18K Gold Wedding Band', price: 16445, img: '/images/18kgoldwedring.jpg', category: 'rings' },
+            { id: 11, name: 'Emerald Solitaire Ring', price: 20845, img: '/images/emeraldengagementring.webp', category: 'rings' },
+            { id: 12, name: 'Pearl Stackable Rings (Set of 3)', price: 4895, img: '/images/pearlstackable.webp', category: 'rings' },
+            { id: 13, name: 'Rose Gold Signet Ring', price: 7645, img: '/images/signetring.webp', category: 'rings' },
+            { id: 14, name: 'Sapphire Eternity Ring', price: 24695, img: '/images/eternityring.webp', category: 'rings' },
+            { id: 15, name: 'Diamond Tennis Necklace', price: 32945, img: '/images/tennisnecklace.jpg', category: 'necklaces' },
+            { id: 16, name: '14K Gold Chain Necklace', price: 9845, img: '/images/14k_yellow_gold_chain.webp', category: 'necklaces' },
+            { id: 17, name: 'Pearl Strand Necklace', price: 16445, img: '/images/pearlnecklace.webp', category: 'necklaces' },
+            { id: 18, name: 'Ruby Pendant Necklace', price: 13695, img: '/images/elegant-ruby-pendant-stockcake.webp', category: 'necklaces' },
+            { id: 19, name: 'Emerald Layered Necklace', price: 19195, img: '/images/laeredemeralnecklace.webp', category: 'necklaces' },
+            { id: 20, name: 'Silver Heart Necklace', price: 5445, img: '/images/silverheartnecklace.webp', category: 'necklaces' },
+            { id: 21, name: 'Gold Link Bracelet', price: 10945, img: '/images/goldlink.webp', category: 'bracelets' },
+            { id: 22, name: 'Diamond Tennis Bracelet', price: 43945, img: '/images/diamondtennisbracelet.webp', category: 'bracelets' },
+            { id: 23, name: 'Pearl Bracelet', price: 8745, img: '/images/pearl bracelet.webp', category: 'bracelets' },
+            { id: 24, name: 'Rose Gold Cuff', price: 15345, img: '/images/rosegoldcuff.jpg', category: 'bracelets' },
+            { id: 25, name: 'Charm Bracelet Set', price: 7095, img: '/images/charmbracelet.webp', category: 'bracelets' }
         ];
 
         // ---------- GLOBAL STATE ----------
@@ -825,7 +814,7 @@
             }
             container.innerHTML = history.map((order, idx) => {
                 const itemsList = order.items.map(item =>
-                    `${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}`).join('<br>');
+                    `${item.name} x${item.qty} - ₱${(item.price * item.qty).toFixed(2)}`).join('<br>');
                 return `
                     <div class="history-card bg-slate-800/70 rounded-2xl p-6 border-l-8 border-gold/60 shadow-md hover:shadow-gold/20 transition-all">
                         <div class="flex flex-wrap justify-between items-start gap-3">
@@ -833,7 +822,7 @@
                                 <p class="text-sm text-gold mb-1">Order #${order.orderId}</p>
                                 <p class="text-xs opacity-60">${order.date}</p>
                             </div>
-                            <span class="bg-gold/20 text-gold px-4 py-1 rounded-full text-sm font-bold">$${order.total.toFixed(2)}</span>
+                            <span class="bg-gold/20 text-gold px-4 py-1 rounded-full text-sm font-bold">₱${order.total.toFixed(2)}</span>
                         </div>
                         <div class="mt-4">
                             <p class="font-semibold">📦 Shipped to: ${order.shippingAddress}</p>
@@ -877,7 +866,7 @@
                     <div class="h-64 rounded-xl bg-cover bg-center mb-4" style="background-image: url('${prod.img}'); background-size: cover;"></div>
                     <h3 class="text-xl font-bold mb-2 truncate">${prod.name}</h3>
                     <div class="flex justify-between items-center mt-2 mb-5">
-                        <span class="text-2xl font-black text-gold">$${prod.price}</span>
+                        <span class="text-2xl font-black text-gold">₱${prod.price}</span>
                         <span class="text-yellow-400 text-sm">★★★★★</span>
                     </div>
                     <button data-id="${prod.id}" data-name="${prod.name.replace(/'/g, "\\'")}" data-price="${prod.price}" data-img="${prod.img}" class="add-cart-btn w-full bg-gradient-to-r from-gold to-amber-500 text-black py-3 rounded-xl font-bold hover:scale-[1.01] transition-all">Add to Cart 🛒</button>
@@ -930,13 +919,13 @@
                     <div class="cart-item flex flex-wrap md:flex-nowrap justify-between items-center py-5 border-b border-gold/30">
                         <div class="flex items-center gap-4 flex-1 min-w-0">
                             <div class="w-20 h-20 rounded-xl bg-cover bg-center shrink-0" style="background-image: url('${item.img}'); background-size: cover;"></div>
-                            <div class="truncate"><h4 class="font-bold text-lg">${item.name}</h4><span class="text-gold">$${item.price}</span></div>
+                            <div class="truncate"><h4 class="font-bold text-lg">${item.name}</h4><span class="text-gold">₱${item.price}</span></div>
                         </div>
                         <div class="flex items-center gap-3 mt-3 md:mt-0">
                             <button onclick="changeItemQty(${item.id}, -1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600 transition-all hover:shadow-[0_0_10px_rgba(212,175,55,0.4)]">−</button>
                             <span class="text-xl font-bold w-12 text-center">${item.qty}</span>
                             <button onclick="changeItemQty(${item.id}, 1)" class="w-10 h-10 bg-slate-700 rounded-xl text-xl hover:bg-slate-600 transition-all hover:shadow-[0_0_10px_rgba(212,175,55,0.4)]">+</button>
-                            <span class="text-xl font-bold text-gold ml-4 min-w-[70px] text-right">$${(item.price * item.qty).toFixed(2)}</span>
+                            <span class="text-xl font-bold text-gold ml-4 min-w-[70px] text-right">₱${(item.price * item.qty).toFixed(2)}</span>
                             <button onclick="removeCartItem(${item.id})" class="ml-2 text-red-400 text-2xl px-2 hover:scale-110 transition">🗑️</button>
                         </div>
                     </div>
@@ -1098,7 +1087,7 @@
             };
             addOrderToHistory(newOrder);
             alert(
-                `🎉 ORDER CONFIRMED! 🎉\nOrder #${orderId}\nTotal: $${total.toFixed(2)}\nShipping to: ${address}\nPayment: ${method}\n\nYour order has been saved to history.`
+                `🎉 ORDER CONFIRMED! 🎉\nOrder #${orderId}\nTotal: ₱${total.toFixed(2)}\nShipping to: ${address}\nPayment: ${method}\n\nYour order has been saved to history.`
                 );
             cart = [];
             updateCartUI();
@@ -1183,7 +1172,7 @@
             }
             renderOrderHistory();
             // GSAP: continuous subtle glow pulse on key elements
-            gsap.to('header h1', { textShadow: '0 0 35px rgba(255,200,60,0.8), 0 0 65px rgba(255,160,30,0.5), 0 0 90px rgba(255,120,0,0.25)',
+            gsap.to('header h1', { textShadow: '0 0 12px rgba(255,220,80,1), 0 0 24px rgba(255,160,30,0.85), 0 0 40px rgba(255,120,0,0.5), 0 0 55px rgba(255,100,0,0.25)',
                 duration: 2, repeat: -1, yoyo: true, ease: 'sine.inOut' });
             gsap.to('#cart-header-btn', { boxShadow: '0 0 20px rgba(255,180,40,0.55), 0 0 35px rgba(255,140,0,0.2)',
                 duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
